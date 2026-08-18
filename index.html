@@ -447,9 +447,65 @@
 
   /* ---------- EDU / CERTS ---------- */
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
-  .list-item{padding:16px 0;border-bottom:1px dotted var(--line);}
-  .list-item .t1{font-weight:600;font-size:0.98rem;}
-  .list-item .t2{color:var(--ink-soft);font-size:0.88rem;margin-top:3px;}
+
+  .cred-group{position:relative;}
+  .cred-group::before{
+    content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;
+    background:linear-gradient(var(--line), var(--line));
+  }
+  .cred-item{
+    position:relative;
+    padding:18px 18px 18px 34px;
+    border-radius:8px;
+    margin-bottom:2px;
+    transition:background-color .3s ease, transform .3s ease, box-shadow .3s ease;
+  }
+  .cred-item::before{
+    content:"";
+    position:absolute;left:1px;top:25px;
+    width:9px;height:9px;border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--pine);
+    z-index:1;
+    transition:background-color .25s ease, transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .cred-item:hover{
+    background:var(--paper-dim);
+    transform:translateX(8px);
+    box-shadow:0 14px 30px -20px rgba(30,42,34,0.4);
+  }
+  .cred-item:hover::before{
+    background:var(--pine);
+    transform:scale(1.35);
+    box-shadow:0 0 0 5px color-mix(in srgb, var(--pine) 18%, transparent);
+  }
+  .cred-item:has(.cred-tag-cert)::before{border-color:var(--gold);}
+  .cred-item:has(.cred-tag-cert):hover::before{
+    background:var(--gold);
+    box-shadow:0 0 0 5px color-mix(in srgb, var(--gold) 18%, transparent);
+  }
+  .cred-tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.64rem;
+    text-transform:uppercase;
+    letter-spacing:0.09em;
+    padding:3px 10px;
+    border-radius:99px;
+    border:1px solid var(--pine);
+    color:var(--pine);
+    margin-bottom:9px;
+    transition:background-color .25s ease, color .25s ease;
+  }
+  .cred-item:hover .cred-tag{background:var(--pine);color:var(--paper);}
+  .cred-tag-cert{border-color:var(--gold);color:var(--gold);}
+  .cred-item:hover .cred-tag-cert{background:var(--gold);color:var(--ink);}
+  .cred-item .t1{font-weight:600;font-size:0.98rem;}
+  .cred-item .t2{color:var(--ink-soft);font-size:0.88rem;margin-top:3px;}
+  @media (prefers-reduced-motion: reduce){
+    .cred-item{transition:background-color .3s ease;}
+    .cred-item:hover{transform:none;box-shadow:none;}
+  }
 
   /* ---------- CONTACT / FOOTER (fixed dark panel in both themes) ---------- */
   footer{
@@ -750,30 +806,35 @@
   <section>
     <div class="wrap two-col">
       <div>
-        <div class="eyebrow">Education</div>
-        <div style="margin-top:22px;">
-          <div class="list-item">
+        <div class="eyebrow reveal">Education</div>
+        <div class="cred-group" style="margin-top:26px;">
+          <div class="cred-item reveal">
+            <span class="cred-tag cred-tag-edu">Degree</span>
             <div class="t1">M.S. Data Science and Artificial Intelligence (Part-time)</div>
             <div class="t2">Fachhochschule Joanneum, Graz, Austria · Nov 2025 — Present</div>
           </div>
-          <div class="list-item">
+          <div class="cred-item reveal">
+            <span class="cred-tag cred-tag-edu">Degree</span>
             <div class="t1">B.S. Artificial Intelligence</div>
             <div class="t2">Pak-Austria Fachhochschule Institute of Applied Sciences and Technology · Sep 2021 — May 2025 · CGPA 3.64/4.00</div>
           </div>
         </div>
       </div>
       <div>
-        <div class="eyebrow">Certifications</div>
-        <div style="margin-top:22px;">
-          <div class="list-item">
+        <div class="eyebrow reveal">Certifications</div>
+        <div class="cred-group" style="margin-top:26px;">
+          <div class="cred-item reveal">
+            <span class="cred-tag cred-tag-cert">Certificate</span>
             <div class="t1">AWS Academy Graduate — Cloud Foundations</div>
             <div class="t2">AWS Academy · April 2026</div>
           </div>
-          <div class="list-item">
+          <div class="cred-item reveal">
+            <span class="cred-tag cred-tag-cert">Certificate</span>
             <div class="t1">Supervised Machine Learning: Regression and Classification</div>
             <div class="t2">Stanford University · March 2023</div>
           </div>
-          <div class="list-item">
+          <div class="cred-item reveal">
+            <span class="cred-tag cred-tag-cert">Certificate</span>
             <div class="t1">Exploratory Data Analysis for Machine Learning</div>
             <div class="t2">IBM · February 2023</div>
           </div>
