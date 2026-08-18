@@ -264,6 +264,31 @@
     z-index:-1;
   }
 
+  /* ---------- PAGE LOAD ENTRANCE ---------- */
+  .lp-header{
+    opacity:0;transform:translateY(-14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .lp-header.lp-in{opacity:1;transform:translateY(0);}
+
+  .lp{opacity:0;transform:translateY(26px);filter:blur(4px);
+    transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .8s ease;}
+  .lp.lp-in{opacity:1;transform:translateY(0);filter:blur(0);}
+
+  .lp-portrait{
+    opacity:0;transform:translateY(0) scale(1.04);filter:blur(0);
+    clip-path:inset(0 0 100% 0);
+    transition:clip-path 1s cubic-bezier(.2,.7,.2,1), opacity .5s ease, transform 1.1s cubic-bezier(.2,.7,.2,1);
+  }
+  .lp-portrait.lp-in{
+    opacity:1;transform:translateY(0) scale(1);
+    clip-path:inset(0 0 0% 0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .lp-header, .lp, .lp-portrait{opacity:1;transform:none;filter:none;clip-path:none;transition:none;}
+  }
+
   /* ---------- SECTION shell ---------- */
   section{padding:88px 0;border-top:1px solid var(--line);}
   .section-head{
@@ -406,7 +431,7 @@
 </head>
 <body>
 
-<header>
+<header class="lp lp-header">
   <nav class="wrap">
     <a href="#top" class="brand">Asharib<span>.</span>Rehan</a>
     <ul class="navlinks" id="navlinks">
@@ -461,18 +486,20 @@
     </svg>
     <div class="wrap hero-grid">
       <div>
-        <div class="eyebrow hero-eyebrow">AI Engineer · Graz, Austria</div>
-        <h1 class="type-h1">Building systems that <span class="rotate-wrap"><span id="rotWord" class="rotate-word"></span><span class="tw-cursor" id="twCursor">|</span></span>.</h1>
-        <p class="lede">I work at the intersection of NLP, generative models, and multi-agent
+        <div class="eyebrow hero-eyebrow lp" data-lp="1">AI Engineer · Graz, Austria</div>
+        <h1 class="type-h1 lp" data-lp="2">Building systems that <span class="rotate-wrap"><span id="rotWord" class="rotate-word"></span><span class="tw-cursor" id="twCursor">|</span></span>.</h1>
+        <p class="lede lp" data-lp="3">I work at the intersection of NLP, generative models, and multi-agent
           orchestration — turning research ideas into production AI systems, from
           diffusion-based generation to autonomous agent pipelines.</p>
-        <div class="hero-actions">
+        <div class="hero-actions lp" data-lp="4">
           <a class="btn btn-solid" href="#work">See my work</a>
           <a class="btn btn-ghost" href="#contact">Get in touch</a>
         </div>
       </div>
       <div class="portrait-frame">
-        <img src="assets/portrait.jpg" alt="Portrait of Muhammad Asharib Rehan" width="260" height="325">
+        <div class="lp lp-portrait" data-lp="2">
+          <img src="assets/portrait.jpg" alt="Portrait of Muhammad Asharib Rehan" width="260" height="325">
+        </div>
       </div>
     </div>
   </section>
@@ -717,6 +744,23 @@
 </footer>
 
 <script>
+  // page-load entrance: header, then hero elements staggered, portrait wipes in
+  (function pageLoadIntro(){
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const header = document.querySelector('.lp-header');
+    const items = document.querySelectorAll('.lp[data-lp]');
+    if (reduceMotion) {
+      if (header) header.classList.add('lp-in');
+      items.forEach(el => el.classList.add('lp-in'));
+      return;
+    }
+    setTimeout(() => { if (header) header.classList.add('lp-in'); }, 80);
+    items.forEach(el => {
+      const step = parseInt(el.getAttribute('data-lp'), 10) || 1;
+      setTimeout(() => el.classList.add('lp-in'), 220 + step * 180);
+    });
+  })();
+
   // mobile nav toggle
   const toggle = document.getElementById('navtoggle');
   const links = document.getElementById('navlinks');
