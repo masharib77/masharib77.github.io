@@ -161,9 +161,24 @@
   .hero h1{
     font-size:clamp(2.4rem,4.6vw,3.6rem);
     line-height:1.06;
+    min-height:2.24em;
   }
   .hero h1 em{
     font-style:italic;font-weight:450;color:var(--pine);
+  }
+  .tw-cursor{
+    display:inline-block;
+    font-weight:300;
+    color:var(--clay);
+    margin-left:2px;
+    animation:blink 1s step-end infinite;
+  }
+  .tw-cursor.done{animation:blink 1s step-end infinite; opacity:0.6;}
+  @keyframes blink{
+    50%{opacity:0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .tw-cursor{display:none;}
   }
   .hero p.lede{
     margin-top:22px;
@@ -387,7 +402,7 @@
     <div class="wrap hero-grid">
       <div>
         <div class="eyebrow hero-eyebrow">AI Engineer · Graz, Austria</div>
-        <h1>Building systems that <em>reason</em>,<br>generate, and act.</h1>
+        <h1 class="type-h1">Building systems that <em id="tw-reason"></em><span id="tw-comma"></span><br id="tw-br" style="display:none;"><span id="tw-rest"></span><span class="tw-cursor" id="twCursor">|</span></h1>
         <p class="lede">I work at the intersection of NLP, generative models, and multi-agent
           orchestration — turning research ideas into production AI systems, from
           diffusion-based generation to autonomous agent pipelines.</p>
@@ -694,7 +709,51 @@
       heroSection.addEventListener('mouseleave', () => { graph.style.transform = 'translate(0,0)'; });
       graph.style.transition = 'transform .3s ease-out';
     }
-  }
+  }  // hero headline typewriter: writes "reason" then "generate, and act."
+  (function typewriterHero(){
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reasonEl = document.getElementById('tw-reason');
+    const commaEl = document.getElementById('tw-comma');
+    const brEl = document.getElementById('tw-br');
+    const restEl = document.getElementById('tw-rest');
+    const cursor = document.getElementById('twCursor');
+    if (!reasonEl || !restEl) return;
+
+    if (reduceMotion) {
+      reasonEl.textContent = 'reason';
+      commaEl.textContent = ',';
+      brEl.style.display = '';
+      restEl.textContent = 'generate, and act.';
+      cursor.style.display = 'none';
+      return;
+    }
+
+    function typeInto(el, text, speed) {
+      return new Promise(resolve => {
+        let i = 0;
+        (function step(){
+          if (i <= text.length) {
+            el.textContent = text.slice(0, i);
+            i++;
+            setTimeout(step, speed);
+          } else resolve();
+        })();
+      });
+    }
+    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    async function run(){
+      await wait(400);
+      await typeInto(reasonEl, 'reason', 65);
+      commaEl.textContent = ',';
+      await wait(260);
+      brEl.style.display = '';
+      await wait(180);
+      await typeInto(restEl, 'generate, and act.', 42);
+      cursor.classList.add('done');
+    }
+    run();
+  })();
 </script>
 </body>
 </html>
