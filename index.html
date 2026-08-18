@@ -398,34 +398,37 @@
     from{transform:translateX(0);}
     to{transform:translateX(-50%);}
   }
-  .wordmark{
-    font-family:'Fraunces',serif;
-    font-weight:600;
-    font-size:1.35rem;
-    color:var(--ink-soft);
-    letter-spacing:0.01em;
-    white-space:nowrap;
-    filter:grayscale(1);
-    opacity:0.55;
-    transition:opacity .3s ease, filter .3s ease, color .3s ease;
-  }
-  .wordmark em{
-    font-style:italic;font-weight:450;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.68rem;
-    color:var(--ink-soft);
-    letter-spacing:0.04em;
-    margin-left:6px;
-    vertical-align:middle;
-  }
-  .wordmark:hover{opacity:1;filter:grayscale(0);color:var(--clay);}
   @media (prefers-reduced-motion: reduce){
     .marquee-track{animation:none;flex-wrap:wrap;width:auto;}
     .marquee{-webkit-mask-image:none;mask-image:none;overflow:visible;}
   }
+  .logo-card{
+    display:flex;align-items:center;justify-content:center;
+    background:#FFFFFF;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:16px 26px;
+    height:76px;
+    flex-shrink:0;
+    filter:grayscale(0.35);
+    opacity:0.85;
+    transition:opacity .3s ease, filter .3s ease, transform .3s ease, box-shadow .3s ease;
+  }
+  .logo-card img{
+    max-height:38px;max-width:150px;
+    width:auto;height:auto;
+    object-fit:contain;
+    display:block;
+  }
+  .logo-card:hover{
+    opacity:1;filter:grayscale(0);
+    transform:translateY(-3px);
+    box-shadow:0 14px 28px -16px rgba(30,42,34,0.35);
+  }
   @media (max-width:860px){
-    .marquee-track{gap:40px;}
-    .wordmark{font-size:1.1rem;}
+    .marquee-track{gap:22px;}
+    .logo-card{height:60px;padding:12px 18px;}
+    .logo-card img{max-height:28px;max-width:110px;}
   }
 
   /* ---------- EDU / CERTS ---------- */
@@ -775,31 +778,23 @@
     </div>
     <div class="marquee" role="list" aria-label="Institutions and organizations">
       <div class="marquee-track">
-        <span class="wordmark" role="listitem">FH JOANNEUM</span>
-        <span class="wordmark" role="listitem">PAF&#8209;IAST</span>
-        <span class="wordmark" role="listitem">TU Graz <em>Science Park</em></span>
-        <span class="wordmark" role="listitem">IEEE</span>
-        <span class="wordmark" role="listitem">aws academy</span>
-        <span class="wordmark" role="listitem">Stanford</span>
-        <span class="wordmark" role="listitem">IBM</span>
-        <span class="wordmark" role="listitem">Colgate&#8209;Palmolive</span>
-        <span class="wordmark" role="listitem">Sybrid <em>· Lakson Group</em></span>
-        <span class="wordmark" role="listitem">Virtual Vehicle Research</span>
-        <span class="wordmark" role="listitem">Brightware</span>
-        <span class="wordmark" role="listitem">IEEE Xplore</span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/fh-joanneum.png" alt="FH Joanneum"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/paf-iast.png" alt="Pak-Austria Fachhochschule (PAF-IAST)"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/ieee.png" alt="IEEE"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/aws-academy.png" alt="AWS Academy"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/colgate-palmolive.png" alt="Colgate-Palmolive"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/sybrid.png" alt="Sybrid Private Limited"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/virtual-vehicle.png" alt="Virtual Vehicle Research GmbH"></span>
+        <span class="logo-card" role="listitem"><img src="assets/logos/brightware.png" alt="Brightware"></span>
         <!-- duplicate set for seamless loop -->
-        <span class="wordmark" aria-hidden="true">FH JOANNEUM</span>
-        <span class="wordmark" aria-hidden="true">PAF&#8209;IAST</span>
-        <span class="wordmark" aria-hidden="true">TU Graz <em>Science Park</em></span>
-        <span class="wordmark" aria-hidden="true">IEEE</span>
-        <span class="wordmark" aria-hidden="true">aws academy</span>
-        <span class="wordmark" aria-hidden="true">Stanford</span>
-        <span class="wordmark" aria-hidden="true">IBM</span>
-        <span class="wordmark" aria-hidden="true">Colgate&#8209;Palmolive</span>
-        <span class="wordmark" aria-hidden="true">Sybrid <em>· Lakson Group</em></span>
-        <span class="wordmark" aria-hidden="true">Virtual Vehicle Research</span>
-        <span class="wordmark" aria-hidden="true">Brightware</span>
-        <span class="wordmark" aria-hidden="true">IEEE Xplore</span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/fh-joanneum.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/paf-iast.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/ieee.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/aws-academy.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/colgate-palmolive.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/sybrid.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/virtual-vehicle.png" alt=""></span>
+        <span class="logo-card" aria-hidden="true"><img src="assets/logos/brightware.png" alt=""></span>
       </div>
     </div>
   </section>
