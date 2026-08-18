@@ -134,8 +134,18 @@
   .navlinks a{
     text-decoration:none;font-size:0.9rem;font-weight:500;color:var(--ink-soft);
     transition:color .2s;
+    position:relative;
+    padding-bottom:2px;
+  }
+  .navlinks a::after{
+    content:"";
+    position:absolute;left:0;bottom:0;width:100%;height:1.5px;
+    background:var(--clay);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .3s ease;
   }
   .navlinks a:hover{color:var(--clay);}
+  .navlinks a:hover::after{transform:scaleX(1);transform-origin:left;}
   .navtoggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
   .navtoggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;}
 
@@ -161,10 +171,25 @@
   .hero h1{
     font-size:clamp(2.4rem,4.6vw,3.6rem);
     line-height:1.06;
-    min-height:2.24em;
+    min-height:1.12em;
   }
   .hero h1 em{
     font-style:italic;font-weight:450;color:var(--pine);
+  }
+  .rotate-wrap{display:inline-block;position:relative;}
+  .rotate-word{
+    font-style:italic;font-weight:450;
+    color:var(--rot-color, var(--pine));
+    transition:color .4s ease;
+    position:relative;
+  }
+  .rotate-word::after{
+    content:"";
+    position:absolute;left:-4px;right:-4px;bottom:0.06em;height:0.34em;
+    background:var(--rot-color, var(--pine));
+    opacity:0.16;
+    z-index:-1;
+    border-radius:2px;
   }
   .tw-cursor{
     display:inline-block;
@@ -195,15 +220,34 @@
     border-radius:2px;
     border:1px solid var(--ink);
     transition:all .2s;
+    position:relative;
+    overflow:hidden;
+    display:inline-block;
   }
+  .btn::before{
+    content:"";
+    position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform:skewX(-20deg);
+    transition:left .55s ease;
+  }
+  .btn:hover::before{left:130%;}
   .btn-solid{background:var(--ink);color:var(--paper);}
-  .btn-solid:hover{background:var(--pine);border-color:var(--pine);}
+  .btn-solid:hover{background:var(--pine);border-color:var(--pine);transform:translateY(-2px);}
   .btn-ghost{color:var(--ink);}
-  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px);}
 
   .portrait-frame{
     position:relative;
     justify-self:end;
+    animation:float 6s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .portrait-frame{animation:none;}
   }
   .portrait-frame img{
     width:260px;height:325px;object-fit:cover;
@@ -231,6 +275,22 @@
   /* ---------- ABOUT ---------- */
   .about-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;}
   .about-grid p{color:var(--ink-soft);font-size:1.02rem;}
+  .mark{
+    position:relative;font-weight:600;color:var(--ink);
+    background-image:linear-gradient(var(--mark-color,var(--pine)), var(--mark-color,var(--pine)));
+    background-repeat:no-repeat;
+    background-size:0% 0.5em;
+    background-position:0 88%;
+    transition:background-size .7s ease;
+  }
+  .mark.mark-in{background-size:100% 0.5em;}
+  .mark-pine{--mark-color:color-mix(in srgb, var(--pine) 35%, transparent);}
+  .mark-clay{--mark-color:color-mix(in srgb, var(--clay) 35%, transparent);}
+  .mark-steel{--mark-color:color-mix(in srgb, var(--steel) 35%, transparent);}
+  .mark-gold{--mark-color:color-mix(in srgb, var(--gold) 45%, transparent);}
+  @media (prefers-reduced-motion: reduce){
+    .mark{background-size:100% 0.5em;transition:none;}
+  }
   .about-facts{
     font-family:'IBM Plex Mono',monospace;font-size:0.85rem;
     border-top:1px solid var(--line);padding-top:18px;margin-top:26px;
@@ -402,7 +462,7 @@
     <div class="wrap hero-grid">
       <div>
         <div class="eyebrow hero-eyebrow">AI Engineer · Graz, Austria</div>
-        <h1 class="type-h1">Building systems that <em id="tw-reason"></em><span id="tw-comma"></span><br id="tw-br" style="display:none;"><span id="tw-rest"></span><span class="tw-cursor" id="twCursor">|</span></h1>
+        <h1 class="type-h1">Building systems that <span class="rotate-wrap"><span id="rotWord" class="rotate-word"></span><span class="tw-cursor" id="twCursor">|</span></span>.</h1>
         <p class="lede">I work at the intersection of NLP, generative models, and multi-agent
           orchestration — turning research ideas into production AI systems, from
           diffusion-based generation to autonomous agent pipelines.</p>
@@ -427,15 +487,15 @@
       <div>
         <p>I'm an AI Engineer currently pursuing an M.S. in Data Science and Artificial
           Intelligence at FH Joanneum in Graz, Austria, following a B.S. in Artificial
-          Intelligence from PAF-IAST, Pakistan. My work spans natural language processing,
-          generative models, and the design of autonomous, multi-agent systems that
+          Intelligence from PAF-IAST, Pakistan. My work spans <span class="mark mark-pine">natural language processing</span>,
+          <span class="mark mark-clay">generative models</span>, and the design of <span class="mark mark-steel">autonomous, multi-agent systems</span> that
           automate real workflows rather than sit in a notebook.</p>
         <p>I've built production systems across three countries and as many industries —
           from a customer-service chatbot at Colgate-Palmolive, to an Urdu agricultural
           advisory chatbot and RVC-based voice cloning system at Sybrid, to the multi-agent
           orchestration platform I currently architect at a TU Graz Science Park startup.
-          My research on graph-conditioned diffusion for floorplan generation was published
-          at IEEE IVCNZ 2025.</p>
+          My research on graph-conditioned diffusion for floorplan generation was <span class="mark mark-gold">published
+          at IEEE IVCNZ 2025</span>.</p>
         <div class="about-facts">
           <div><span>Based in</span><span>Graz, Austria</span></div>
           <div><span>Focus</span><span>NLP · LLMs · Agentic Systems · Generative AI</span></div>
@@ -691,8 +751,17 @@
       el.style.transitionDelay = (i % 4) * 0.06 + 's';
       io.observe(el);
     });
+
+    const markIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('mark-in'); markIo.unobserve(e.target); } });
+    }, { threshold: 0.8 });
+    document.querySelectorAll('.mark').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 0.15 + 's';
+      markIo.observe(el);
+    });
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+    document.querySelectorAll('.mark').forEach(el => el.classList.add('mark-in'));
   }
 
   // subtle hero graph parallax on pointer move
@@ -709,48 +778,59 @@
       heroSection.addEventListener('mouseleave', () => { graph.style.transform = 'translate(0,0)'; });
       graph.style.transition = 'transform .3s ease-out';
     }
-  }  // hero headline typewriter: writes "reason" then "generate, and act."
+  }  // hero headline: loops "reason" -> "generate" -> "act" with type/delete + color highlight
   (function typewriterHero(){
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const reasonEl = document.getElementById('tw-reason');
-    const commaEl = document.getElementById('tw-comma');
-    const brEl = document.getElementById('tw-br');
-    const restEl = document.getElementById('tw-rest');
+    const wordEl = document.getElementById('rotWord');
+    const wrap = document.querySelector('.rotate-wrap');
     const cursor = document.getElementById('twCursor');
-    if (!reasonEl || !restEl) return;
+    if (!wordEl || !wrap) return;
+
+    const words = [
+      { text: 'reason',   color: 'var(--pine)'  },
+      { text: 'generate', color: 'var(--clay)'  },
+      { text: 'act',      color: 'var(--steel)' }
+    ];
 
     if (reduceMotion) {
-      reasonEl.textContent = 'reason';
-      commaEl.textContent = ',';
-      brEl.style.display = '';
-      restEl.textContent = 'generate, and act.';
-      cursor.style.display = 'none';
+      wordEl.textContent = words[0].text;
+      wrap.style.setProperty('--rot-color', words[0].color);
+      if (cursor) cursor.style.display = 'none';
       return;
     }
 
-    function typeInto(el, text, speed) {
+    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+    function typeInto(text, speed){
       return new Promise(resolve => {
         let i = 0;
         (function step(){
-          if (i <= text.length) {
-            el.textContent = text.slice(0, i);
-            i++;
-            setTimeout(step, speed);
-          } else resolve();
+          if (i <= text.length) { wordEl.textContent = text.slice(0, i); i++; setTimeout(step, speed); }
+          else resolve();
         })();
       });
     }
-    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+    function deleteFrom(text, speed){
+      return new Promise(resolve => {
+        let i = text.length;
+        (function step(){
+          if (i >= 0) { wordEl.textContent = text.slice(0, i); i--; setTimeout(step, speed); }
+          else resolve();
+        })();
+      });
+    }
 
     async function run(){
-      await wait(400);
-      await typeInto(reasonEl, 'reason', 65);
-      commaEl.textContent = ',';
-      await wait(260);
-      brEl.style.display = '';
-      await wait(180);
-      await typeInto(restEl, 'generate, and act.', 42);
-      cursor.classList.add('done');
+      await wait(500);
+      let idx = 0;
+      while (true) {
+        const w = words[idx % words.length];
+        wrap.style.setProperty('--rot-color', w.color);
+        await typeInto(w.text, 68);
+        await wait(1100);
+        await deleteFrom(w.text, 38);
+        await wait(220);
+        idx++;
+      }
     }
     run();
   })();
